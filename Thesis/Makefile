@@ -14,10 +14,9 @@ else
 	endif
 endif
 
-cleanFiles = *.aux *.lof *.log *.lot *.out *.toc *.bbl *.blg
-cleanCmd = $(call FixPath,$(cleanFiles))
-
-
+cleanFilesLin:= *.aux *.lof *.log *.lot *.out *.toc *.bbl *.blg
+cleanFilesWin:= *.aux, *.lof, *.log, *.lot, *.out, *.toc, *.bbl, *.blg
+cleanCmd= $(RM) $(call FixPath,$(cleanFilesLin))
 
 .PHONY: clean cleanAll noBib updateFonts
 
@@ -31,7 +30,7 @@ noBib:
 	$(LATEX) thesis
 
 clean:
-	$(RM) $(call FixPath,$(cleanFiles))
+	rm *.aux, *.lof, *.log, *.lot, *.out, *.toc, *.bbl, *.blg
 
 cleanAll:
 	make clean
