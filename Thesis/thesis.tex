@@ -1,0 +1,33 @@
+\documentclass[a4paper,12pt, oneside]{book}
+
+\usepackage{ddpThesis}
+
+
+% \newcommand{\BigO}[1]{\ensuremath{\operatorname{O}\bigl(#1\bigr)}}
+\parindent 8pt
+\begin{document}
+\frontmatter
+\maketitle
+
+\input{./Acknowledgement.tex}
+\input{./Declaration.tex}
+
+\thispagestyle{empty} % No headers
+\tableofcontents
+\pagestyle{fancy}
+\input{./forntChapter.tex}
+
+\mainmatter
+
+\input{./Introduction.tex}
+\input{./Chapter2.tex}
+
+\backmatter
+\pagenumbering{Alph}
+    \listoffigures
+    \listoftables
+
+
+\bibliographystyle{ieeetr}
+\bibliography{thesisTemplate}{}
+\end{document}

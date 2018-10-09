@@ -1,0 +1,148 @@
+\chapter{Motivation}
+
+\begin{figure}[H]
+    \centering
+    \begin{circuitikz}
+
+        \coordinate (a) at (0,0);
+
+        \draw
+        (a) node[pmos, anchor=drain] (Mb){}
+        (a) ++ (-2, -1) node[pmos, anchor=source, xscale=-1] (MPP){}
+        (a) ++ (2, -1) node[pmos, anchor=source] (MPN){}
+        (a) to [short] ++(0,-1)
+        (MPP.drain) ++ (0, -2) node[nmos, anchor=drain, xscale=-1] (MNP){}
+        (MPN.drain) ++ (0, -2) node[nmos, anchor=drain] (MNN){}
+
+        (a) ++ (-5,0) node[pmos, anchor=drain, xscale=-1] (Mb0){}
+
+        (MPP.drain) ++ (0,-1) coordinate(b) to [L, name = L] ++(4,0) coordinate(c)
+
+        (Mb0.gate) to [short] (Mb0.gate|-Mb0.drain) to [short] (Mb0.drain)
+        (Mb0.gate) to [short, l=$V_b$] (Mb.gate)
+        (MPN.source) to [short] ++(-2,0) to [short, l_=$V_x$] (MPP.source)
+        (MPN.drain) to [short] (MNN.drain)
+        (MPP.drain) to [short] (MNP.drain)
+        (MPP.gate) to [short] ++(0.75,0) to [short] ++(1,-0.75) to [short] ++(1.25,0)
+        (MPN.gate) to [short] ++(-0.75,0) to [short] ++(-1,-0.75) to [short] ++(-1.25,0)
+        (MNP.gate) to [short] ++(0.75,0) to [short] ++(1,0.75) to [short] ++(1.25,0)
+        (MNN.gate) to [short] ++(-0.75,0) to [short] ++(-1,0.75) to [short] ++(-1.25,0)
+        (Mb0.source) to [short, l=${V_{DD} = 1.2\ V}$] (Mb.source)
+        (MNP.source) to [short, l=$V_{SS}$] (MNN.source)
+        (MNP.source-|a) node[ground]{}
+        (Mb0.drain) to [I, l=${I_b = 100 \mu A}$] ++(0,-1.5) node[ground]{}
+        (c) to [short] ++(3.25,0) coordinate(e) to [vC, l_=$C_{VP}$] ++(0,-1.5) node[ground]{}
+        (b) to [short] ++(-3.25,0) coordinate(f) to [vC=$C_{VN}$] ++(0,-1.5) node[ground]{}
+        (e) to [short] ++(2,0) coordinate(g) to [twoport, l_=$C_{P}$] ++(0,-1.5) node[ground]{}
+        (f) to [short] ++(-2,0) coordinate(h) to [twoport, l=$C_{N}$] ++(0,-1.5) node[ground]{}
+        ;
+        
+        \node[align=left] (lMb) at ([shift=(right:2.5)]Mb.gate) {$M_b$\\ $\frac{W}{L} = \frac{0.5 \times 16 \mu m}{60 \mu m}$ \\ $M = 4$};
+        \node[align=right] (lMb0) at ([shift=(left:2.5)]Mb0.gate) {$M_{b0}$\\ $\frac{W}{L} = \frac{0.5 \times 2 \mu m}{60 \mu m}$ \\ $M = 2$};
+        \node[align=right] (lMPP) at ([shift=(left:2.5)]MPP.gate) {$M_{PP}$\\ $\frac{W}{L} = \frac{0.5 \times 16 \mu m}{60 \mu m}$ \\ $M = 6$};
+        \node[align=left] (lMPN) at ([shift=(right:2.5)]MPN.gate) {$M_{PN}$\\ $\frac{W}{L} = \frac{0.5 \times 16 \mu m}{60 \mu m}$ \\ $M = 6$};
+        \node[align=right] (lMNP) at ([shift=(left:2.5)]MNP.gate) {$M_{NP}$\\ $\frac{W}{L} = \frac{0.5 \times 8 \mu m}{60 \mu m}$ \\ $M = 6$};
+        \node[align=left] (lMNN) at ([shift=(right:2.5)]MNN.gate) {$M_{NN}$\\ $\frac{W}{L} = \frac{0.5 \times 8 \mu m}{60 \mu m}$ \\ $M = 6$};
+        \draw[-latex] (Mb.drain)++(0.5,0) -- ++(0,-0.5) node[right] {${1.6\ mA}$};
+        \node[align=center] (labhf) at ([shift=(north:0.5)]L) {$L = 2\ nH,\ Q = 8.93$};
+        
+        
+    \end{circuitikz}
+    \caption{Cross coupled PMON-NMOS VCO with PMOS current source architecture}
+    \label{fig:Architecture}
+\end{figure}
+    
+\begin{figure}[t]
+    \centering
+    \begin{circuitikz}
+        \coordinate (a) at (0,0);
+
+        \draw
+        (a) node[nmos, anchor = drain] (MS4){} 
+        (a) to [short] ++ (-2.5,0) to [short] ++(0,-1.5) to [C, l=${C}$] ++(0,-1.5) node[ground]{}
+        (a) ++(2.5,0) coordinate (b) node[nmos, anchor = drain] (MS3){} 
+        (b) ++(2.5,0) coordinate (c) node[nmos, anchor = drain] (MS2){} 
+        (c) ++(2.5,0) coordinate (d) node[nmos, anchor = drain] (MS1){} 
+        (MS4.source) to [C, l=${4C}$] ++(0, -1.5) node[ground]{}
+        (MS3.source) to [C, l=${3C}$] ++(0, -1.5) node[ground]{}
+        (MS2.source) to [C, l=${2C}$] ++(0, -1.5) node[ground]{}
+        (MS1.source) to [C, l=${C}$] ++(0, -1.5) node[ground]{}
+        (MS4.gate) ++(-0.5,0) to[short, o-, l=${S_4}$] (MS4.gate)
+        (MS3.gate) ++(-0.5,0) to[short, o-, l=${S_3}$] (MS3.gate)
+        (MS2.gate) ++(-0.5,0) to[short, o-, l=${S_2}$] (MS2.gate)
+        (MS1.gate) ++(-0.5,0) to[short, o-, l=${S_1}$] (MS1.gate)
+        (a) to [short] (d) to [short, -o, l=$V_{out}$] ++(1,0)
+        ;
+    \end{circuitikz}
+    \caption{Capacitor Bank}
+    \label{fig:capbank}
+\end{figure} 
+
+Hello
+\section{Section}
+Hello \cite{borkar2011future}
+\subsection{SubSection}
+Hello
+
+...
+\begin{figure}
+    \caption{Dummy figure}
+\end{figure}
+
+\begin{table}
+    \caption{Dummy table}
+\end{table}
+...
+
+
+% for multirow text wrapping use size instead of * as shown below
+\begin{table}[H]
+    \centering
+    \caption{Differential Noise Analysis}
+    \label{tab:Q3_diffNoise}
+    \begin{tabular}{|C{4.5cm}|C{2.5cm}|C{2.5cm}|}
+        \hline
+        \multirow{2}{4.5cm}{Noise Contributing Element}   & \multicolumn{2}{C{5cm}|}{Total Noise Measured @ Von} \\
+        \cline{2-3}
+        & \(V^2\) & \(\%\ Total\) \\
+        \hline
+        M0 (M1) & \(6.989\times 10^{-8}\) & \(49.81\ \%\) \\
+        R2 (R1) & \(2.676\times 10^{-10}\) & \(0.19\ \%\) \\
+        M1 (M2) & \(6.989\times 10^{-8}\) & \(49.81\ \%\) \\
+        R1 (R2) & \(2.676\times 10^{-10}\) & \(0.19\ \%\) \\
+        R0 (Rb) & \(1.283\times 10^{-39}\) & \(9.1\times10^{-31}\ \%\) \\
+        \hline
+        Total & \multicolumn{2}{C{5cm}|}{\(1.403\times10{-7}\ V^2\)} \\
+        Input Referred Noise  & \multicolumn{2}{C{5cm}|}{\(1.168\times10{32}\ V^2\)} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \begin{circuitikz}
+        \draw (0,0) node[ground]{} to [sI=$V_{in}$]  (0,2) to [C = $SC_I$,-*] 
+        (0,3) node[left]{$V_s$} to [I, i = $g_mV_{gs}$]
+        (0,5) to [short] (4,5) to [C = $SC_L$] (4,3) to [short] (3,3) 
+        node[ground]{} to [short] (2,3) to [R, l=$g_r$] (2,5)
+        (-1,5) node[ground]{$G$}
+        (4,5) to [short] (4.5,5) node[right]{$V_{out}$}
+        ;
+        \draw[-latex] (-2,1) -- (-1.5,1) -- (-1.5,2) node[left]{$Z_{in}$};
+    \end{circuitikz}
+    \caption{Small Signal model}
+    \label{fig:Q2_smallSigModel}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{>{\centering\arraybackslash}m{3.7cm}|>{\centering\arraybackslash}m{3.7cm}|>{\centering\arraybackslash}m{3.7cm}}
+    \hline
+    Only one line here. & Same for column two. & Same for column three. \\
+    \hline
+    We have two lines here, each line centered. & This cell will have three lines and each line centered as well. & Here is a justified cell, please check this out! \\
+    \hline
+    This cell has one line. & So does this one. & And this one, too! \\
+    \hline
+    \end{tabular}
+\end{table}
